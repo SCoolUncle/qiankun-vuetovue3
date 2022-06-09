@@ -13,3 +13,22 @@ createApp(App).use(store).use(router).mount("#app");
 registerMicroApps(microOptions, {});
 
 start();
+
+/**
+ * 设置全局对象
+ * 此时只能单向通信， 若想通过子应用修改父应用的数据可以将父应用的 dispatch 方法传递过去
+ */
+function setGloabalData() {
+  const globalActions = initGlobalState({
+    data: {},
+  });
+
+  // change setGloabalstate 修改全局对象
+  globalActions.setGlobalState({
+    data: {
+      name: "change",
+    },
+  });
+}
+
+// 参考 https://github.com/umijs/qiankun/issues/636

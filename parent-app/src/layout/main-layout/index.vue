@@ -8,7 +8,9 @@
         ></TopMenuVue>
       </Layout.Header>
       <Layout>
-        <Layout.Sider>sider</Layout.Sider>
+        <Layout.Sider>
+          <Button @click="changeGlabalState">测试globalstate</Button>
+        </Layout.Sider>
         <Layout.Content>
           <!-- 需要判断当前是不是子应用 -->
           <div id="reactapp_container">content</div>
@@ -21,9 +23,11 @@
 </template>
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { Layout } from "ant-design-vue";
+import { Layout, Button } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import TopMenuVue from "@/components/menu/TopMenu.vue";
+import { initGlobalState, registerMicroApps, start } from "qiankun";
+
 const router = useRouter();
 const state = reactive({
   menuInfo: [
@@ -53,10 +57,23 @@ const state = reactive({
     },
   ],
 });
+
 function handleMenu({ item, key, keyPath }) {
   router.push(key);
   console.log("layout");
   console.log(item, key, keyPath);
+}
+
+const globalActions = initGlobalState({
+  data: {},
+});
+
+function changeGlabalState() {
+  globalActions.setGlobalState({
+    data: {
+      name: "change",
+    },
+  });
 }
 </script>
 <style lang="less">

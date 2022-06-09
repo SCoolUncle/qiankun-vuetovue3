@@ -27,7 +27,12 @@ export async function bootstrap() {
   console.log("-----------bootstrap---------");
 }
 
+/** 每次切出都会触发，可以事先将 */
 export async function mount(props: any) {
+  // 监听父应用传递的数据变化，设置fireImmediately: true 可以获取初始全局对象
+  props.onGlobalStateChange((state: any) => {
+    console.log("子应用 状态发生更新", state);
+  }, true);
   render(props);
   console.log("----------mount---------");
   console.log(props);
